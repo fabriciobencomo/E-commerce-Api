@@ -17,8 +17,9 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
+            'category_id' => rand(1,10),
             'name' => $this->faker->name,
-            'price' => $this->faker->numberBetween(1000,6000)
+            'price' => $this->faker->numberBetween(1000,6000),
         ];
     }
 }

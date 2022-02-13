@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\userTokenController;
+use App\Http\Controllers\ApiNewsletterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('products', ProductController::class);
 
 Route::post('sanctum/token', userTokenController::class);
+
+Route::post('/newsletter', [ApiNewsletterController::class, 'send']);

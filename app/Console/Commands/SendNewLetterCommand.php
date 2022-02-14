@@ -8,13 +8,14 @@ use App\Notifications\newsletterNotification;
 
 class SendNewLetterCommand extends Command
 {
-    protected $signature = 'send:newsletter {emails?*}';
+    protected $signature = 'send:newsletter {emails?*} {--s|schedule: must be Excute or not}';
 
-    protected $description = 'Envia un correo electronico a todos los usuarios que hayan verificado su cuenta';
+    protected $description = 'Send An Email To Every User that has its account Verified';
 
     public function handle()
     {
         $userEmails = $this->argument('emails');
+        $schedule = $this->option('schedule');
 
         $builder = User::query();
 
@@ -25,18 +26,20 @@ class SendNewLetterCommand extends Command
         $builder->whereNotNull('email_verified_at');
 
         if ($count = $builder->count()) {
-            $this->info("Se enviaran {$count} correos");
+            $this->info("{$count} mails will be sent");
 
-            if ($this->confirm('¿Estas de acuerdo?')) {
+            if ($this->confirm('Are you Sure?')) {
+                $this->output->progressStart($count);
                 $builder->each(function (User $user) {
                     $user->notify(new NewsletterNotification());
+                    $this->output->progressAdvance();
                 });
-
-                $this->info('Correos enviados');
+                $this->output->progressFinish();
+                $this->info('mails sent');
                 return;
             }
         }
 
-        $this->info('No se enviaron correos');
+        $this->info('emails were not sent');
     }
 }

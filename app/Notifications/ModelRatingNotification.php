@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class newsletterNotification extends Notification
+class ModelRatingNotification extends Notification
 {
     use Queueable;
 
@@ -16,11 +16,9 @@ class newsletterNotification extends Notification
      *
      * @return void
      */
-    public function __construct(string $qualifierName, string $productName, float $score)
+    public function __construct()
     {
-        $this->qualifierName = $qualifierName;
-        $this->productName = $productName;
-        $this->score = $score;
+        //
     }
 
     /**
@@ -43,7 +41,9 @@ class newsletterNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line("$this->qualifierName had value your product $this->productName with $this->score");
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**

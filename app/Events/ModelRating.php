@@ -20,10 +20,27 @@ class ModelRating
      *
      * @return void
      */
-    public function __construct(Model $qualifier, Model $rateable, float $socre)
+    public function __construct(Model $qualifier, Model $rateable, float $score)
     {
-        //
+        $this->quailifer = $qualifier;
+        $this->rateable = $rateable;
+        $this->score = $score;
     }
+
+    public function getQualifier() : Model
+    {
+        return $this->qualifier;
+    }
+
+    public function getRateable() : Model
+    {
+        return $this->rateable;
+    }
+    public function getScore() : float
+    {
+        return $this->score;
+    }
+
 
     /**
      * Get the channels the event should broadcast on.

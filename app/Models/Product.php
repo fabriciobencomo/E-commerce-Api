@@ -17,4 +17,16 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function (Product $product){
+            $product->image_url = "";
+        });
+    }
 }
